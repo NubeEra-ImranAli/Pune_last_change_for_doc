@@ -1,0 +1,9 @@
+asgiref
+Django
+django-widget-tweaks
+pytz
+sqlparse
+pandas
+numpy
+scikit-learn
+matplotlib

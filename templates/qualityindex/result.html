@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+{% load static %} {% load filters %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>Results</title>
+    <style>
+      #log-output {
+        background-color: #1e1e1e;
+        color: #dcdcdc;
+        font-family: "Courier New", Courier, monospace;
+        padding: 10px;
+        height: 300px;
+        overflow-y: auto;
+        border-radius: 5px;
+        border: 1px solid #333;
+        white-space: pre-wrap; /* To preserve whitespace and newlines */
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <a href="{% url 'home' %}" style="font-size: 30px">Back to Home</a>
+      <h2>Model Performance</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>R<sup>2</sup> Score</th>
+            <th>Mean Absolute Error (MAE)</th>
+            <th>Root Mean Squared Error (RMSE)</th>
+            <th>Total Execution Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ r2 }}</td>
+            <td>{{ mae }}</td>
+            <td>{{ rmse }}</td>
+            <td>{{ execution_time }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="container mt-5">
+        <h2>Statistics</h2>
+        <!-- Display the statistics table here -->
+        <div class="table-responsive">{{ statistics_html|safe }}</div>
+      </div>
+      <!-- Results Table -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <img
+              src="{% static 'AQI_Category.jpg' %}"
+              class="card-img-top"
+              alt="Chart"
+            />
+          </div>
+        </div>
+      </div>
+
+      <h2>Other Algorithm Performance</h2>
+      <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Regression Type</th>
+                <th>R<sup>2</sup> Score</th>
+                <th>Mean Absolute Error (MAE)</th>
+                <th>Root Mean Squared Error (RMSE)</th>
+                <th>Total Execution Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in otheralog %}
+                <tr>
+                    <td>{{ x.0 }}</td>
+                    <td>{{ x.1 }}</td>
+                    <td>{{ x.2 }}</td>
+                    <td>{{ x.3 }}</td>
+                    <td>{{ x.4 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+      <h2>
+        AQI Calculation Results as per Data Provided for Date : {{selected_date}}
+      </h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Predicted AQI</th>
+            <th>Predicted AQI Category</th>
+            <th>Actual AQI</th>
+            <th>Actual AQI Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for result in results %}
+          <tr>
+            <td>{{ result.name }}</td>
+            <td>{{ result.predicted_aqi }}</td>
+            <td
+              class="text-black text-center"
+              style="background-color: {{ result.predicted_aqi_category|get_aqi_color }}"
+            >
+              <b> {{ result.predicted_aqi_category }}</b>
+            </td>
+            <td>{{ result.actual_aqi }}</td>
+            <td
+              class="text-black text-center"
+              style="background-color: {{ result.actual_aqi_category|get_aqi_color }}"
+            >
+              <b> {{ result.actual_aqi_category }}</b>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="{% url 'charts' %}" style="font-size: 30px">Show Charts</a>
+      <BR><BR>
+      <a href="{% url 'user_result' %}?aqi_value={{ aqi_value }}&aqi_category={{ aqi_category }}" style="font-size: 30px">Show User Result</a>
+    </div>
+  </body>
+</html>

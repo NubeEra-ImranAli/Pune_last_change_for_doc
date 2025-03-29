@@ -649,10 +649,17 @@ def predict_aqi(request):
             model.fit(X_train, y_train)
             predictions = model.predict(X_test)
             
+            # Compute Mean Squared Error (MSE)
             mse = mean_squared_error(y_test, predictions)
+            
+            # Compute RMSE manually (square root of MSE)
+            rmse = mse ** 0.5
+            
+            # Compute R-squared score
             r2 = r2_score(y_test, predictions)
-            mae = mean_absolute_error(y_test, predictions)  # Mean Absolute Error
-            rmse = mean_squared_error(y_test, predictions, squared=False)  # Root Mean Squared Error
+            
+            # Compute Mean Absolute Error (MAE)
+            mae = mean_absolute_error(y_test, predictions)
             
             return mse, r2, mae, rmse
 

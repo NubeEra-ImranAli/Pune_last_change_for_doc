@@ -649,17 +649,10 @@ def predict_aqi(request):
             model.fit(X_train, y_train)
             predictions = model.predict(X_test)
             
-            # Compute Mean Squared Error (MSE)
             mse = mean_squared_error(y_test, predictions)
-            
-            # Compute RMSE manually (square root of MSE)
-            rmse = mse ** 0.5
-            
-            # Compute R-squared score
             r2 = r2_score(y_test, predictions)
-            
-            # Compute Mean Absolute Error (MAE)
-            mae = mean_absolute_error(y_test, predictions)
+            mae = mean_absolute_error(y_test, predictions)  # Mean Absolute Error
+            rmse = mean_squared_error(y_test, predictions, squared=False)  # Root Mean Squared Error
             
             return mse, r2, mae, rmse
 
@@ -847,8 +840,75 @@ def predict_aqi(request):
 
         # Append results
         otheralog.append(['PCR With Gradient Boosting', f'{r2:.4f}', f'{mae:.4f}', f'{rmse:.4f}', formatted_time])
+        from sklearn.preprocessing import LabelEncoder
+        from sklearn.pipeline import make_pipeline
+        # Assume 'data' is already loaded
+
+        # Drop unnecessary columns
+        data = data.drop(columns=['LASTUPDATEDATETIME'])  # Date-time not needed
+
+        # Handle categorical column 'NAME'
+        if 'NAME' in data.columns:
+            data['NAME'] = LabelEncoder().fit_transform(data['NAME'])  # Convert station names to numbers
+        # Handle missing values (Imputation)
+        imputer = SimpleImputer(strategy='mean')  # Fill NaN with column mean
+        data[:] = imputer.fit_transform(data)  # Apply imputation
+        # Define Features (X) and Target (y)
+        X = data.drop(columns=['AQI'])  # Features
+        y = data['AQI']  # Target variable
+
+        # Train-test split
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+        # List of regression models
+        models = {
+            "Linear Regression": LinearRegression(),
+            "Ridge Regression": Ridge(),
+            "Lasso Regression": Lasso(),
+            "Decision Tree": DecisionTreeRegressor(),
+            "Random Forest": RandomForestRegressor(n_estimators=100),
+            "Gradient Boosting": GradientBoostingRegressor(),
+            "Support Vector Regression": SVR(),
+            "PCR (Principal Component Regression)": make_pipeline(StandardScaler(), PCA(n_components=5), LinearRegression()),
+            "PCR with Gradient Boosting": make_pipeline(StandardScaler(), PCA(n_components=5), GradientBoostingRegressor()),
+            "PCR with Ridge Regression": make_pipeline(StandardScaler(), PCA(n_components=5), Ridge()),
+            "PCR with Decision Tree": make_pipeline(StandardScaler(), PCA(n_components=5), DecisionTreeRegressor()),
+        }
+        from sklearn.metrics import mean_absolute_percentage_error, median_absolute_error, explained_variance_score
+        # Function to compute regression metrics
+        def regression_metrics(y_true, y_pred, n, p, execution_time):
+            mse = mean_squared_error(y_true, y_pred)
+            mpe = np.mean((y_true - y_pred) / y_true) * 100
+            mape = mean_absolute_percentage_error(y_true, y_pred) * 100
+            medae = median_absolute_error(y_true, y_pred)
+            explained_var = explained_variance_score(y_true, y_pred)
+            adjusted_r2 = 1 - ((1 - explained_var) * (n - 1) / (n - p - 1))
+
+            return [mse, mpe, mape, medae, explained_var, adjusted_r2, execution_time]
+
+        # Store results
+        results_new = []
+
+        # Train and evaluate each model
+        for name, model in models.items():
+            start_time = time.time()  # Start time tracking
+            model.fit(X_train, y_train)
+            y_pred = model.predict(X_test)
+            end_time = time.time()  # End time tracking
+            execution_time = end_time - start_time  # Calculate execution time
+
+            metrics = regression_metrics(y_test, y_pred, len(y_test), X_train.shape[1], execution_time)
+            results_new.append([name] + metrics)
+
+        # Convert results to DataFrame
+        columns = ["Regression Type", "MSE", "MPE", "MAPE", "MedAE", "Explained Variance", "Adjusted R²", "Execution Time (s)"]
+        results_df = pd.DataFrame(results_new, columns=columns)
+        results_df = results_df.values.tolist()
+
+        # Display results
         return render(request, 'qualityindex/result.html', {
             'results': results,
+            'results_df': results_df,
             'r2': r2,
             'mae': mae,
             'rmse': rmse,

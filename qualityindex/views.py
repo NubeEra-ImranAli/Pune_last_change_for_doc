@@ -652,7 +652,7 @@ def predict_aqi(request):
             mse = mean_squared_error(y_test, predictions)
             r2 = r2_score(y_test, predictions)
             mae = mean_absolute_error(y_test, predictions)  # Mean Absolute Error
-            rmse = mean_squared_error(y_test, predictions, squared=False)  # Root Mean Squared Error
+            rmse = np.sqrt(mean_squared_error(y_test, predictions))
             
             return mse, r2, mae, rmse
 

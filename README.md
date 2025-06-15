@@ -1,8 +1,4 @@
 
----
-
-### 📁 Branch: `ensemble_dl_xgb_96acc`
-```markdown
 # Ensemble: Deep Learning + XGBoost
 
 This branch contains an ensemble model that averages predictions from a trained deep learning model and an XGBoost regressor.

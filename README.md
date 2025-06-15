@@ -10,5 +10,4 @@ This branch contains a deep learning (TensorFlow/Keras) and XGB model built for 
 - 💡 Loss Function: MSE
 - 🛠️ Optimizer: Adam (lr=0.001)
 - ⏱️ Training: 300 epochs, early stopping, learning rate scheduler
-# XGBoost Regression Model
 

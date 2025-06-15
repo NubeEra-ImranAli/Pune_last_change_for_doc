@@ -1,13 +1,25 @@
-# Deep Learning Model – v3
 
-This branch contains a deep learning (TensorFlow/Keras) and XGB model built for predicting CO2_MIN from various air quality metrics. This version achieved:
+---
+
+### 📁 Branch: `ensemble_dl_xgb_96acc`
+```markdown
+# Ensemble: Deep Learning + XGBoost
+
+This branch contains an ensemble model that averages predictions from a trained deep learning model and an XGBoost regressor.
 
 - ✅ **Accuracy**: ~96% (R² Score)
-- 🧠 **Architecture**: 3 Dense layers + Dropout + BatchNormalization & XGB
+- ⚡️ **Ensemble Method**: Soft Average
+- 🤖 Models:
+  - Deep Neural Network (Keras)
+  - XGBoost Regressor
 - 📈 **Preprocessing**:
   - Polynomial Features (Degree 2)
-  - Location-wise data splits
-- 💡 Loss Function: MSE
-- 🛠️ Optimizer: Adam (lr=0.001)
-- ⏱️ Training: 300 epochs, early stopping, learning rate scheduler
+  - StandardScaler
+- 🧪 Location-based test split for robustness
 
+## File
+- `model.py`: Contains model definitions, ensemble logic, and performance metrics.
+
+## Run
+```bash
+python model.py

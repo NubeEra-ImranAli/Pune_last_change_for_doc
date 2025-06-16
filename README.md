@@ -21,6 +21,9 @@ This branch contains an ensemble model that averages predictions from a trained 
 | **SHAP Feature Importance (XGB)**      | 0.968   | 7.729   | 0.9928   | ⚡ Best RMSE overall                          |
 | **DL + XGB Stacking**                  | 1.006   | 7.970   | 0.9929   | ⚡ Best R², strong ensemble                   |
 | **Tuned XGBoost**                      | 0.944   | 13.040  | 0.9928   | Great MAE, slightly higher RMSE              |
+| **Decision Tree Regression**           | 1.970   | 9.940   | 0.9888   | Good baseline tree model                     |
+| **Random Forest Regression**           | 2.390   | 10.190  | 0.9882   | Slightly worse than decision tree            |
+| **Linear Regression**                  | 32.560  | 43.080  | 0.7889   | ❌ Poor performance overall                   |
 
 
 ## File

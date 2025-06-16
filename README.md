@@ -1,13 +1,14 @@
 
-# Ensemble: Deep Learning + XGBoost
+# Ensemble: Deep Learning + XGBoost + SHAP Feature Importance
 
-This branch contains an ensemble model that averages predictions from a trained deep learning model and an XGBoost regressor.
+This branch contains an ensemble model that averages predictions from a trained deep learning model, SHAP Feature Importance and XGBoost regressor.
 
-- ✅ **Accuracy**: ~96% (R² Score)
+- ✅ **Accuracy**: ~99% (R² Score)
 - ⚡️ **Ensemble Method**: Soft Average
 - 🤖 Models:
   - Deep Neural Network (Keras)
   - XGBoost Regressor
+  - SHAP feature importance
 - 📈 **Preprocessing**:
   - Polynomial Features (Degree 2)
   - StandardScaler

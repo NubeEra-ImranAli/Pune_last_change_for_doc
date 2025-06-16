@@ -14,8 +14,8 @@ This branch contains an ensemble model that averages predictions from a trained 
 - 🧪 Location-based test split for robustness
 
 ## File
-- `EnsembleModel.py`: Contains model definitions, ensemble logic, and performance metrics.
+- `stackingMetaModel.py`: Contains model definitions, ensemble logic, and performance metrics.
 
 ## Run
 ```bash
-python EnsembleModel.py
+python stackingMetaModel.py

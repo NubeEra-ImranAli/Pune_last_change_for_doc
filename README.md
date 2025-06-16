@@ -15,8 +15,8 @@ This branch contains an ensemble model that averages predictions from a trained 
 - 🧪 Location-based test split for robustness
 
 ## File
-- `model.py`: Contains model definitions, ensemble logic, and performance metrics.
+- `shapModel.py`: Contains model definitions, ensemble logic, and performance metrics.
 
 ## Run
 ```bash
-python model.py
+python shapModel.py

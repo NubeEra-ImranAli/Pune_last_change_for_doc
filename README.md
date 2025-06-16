@@ -15,8 +15,8 @@ This branch contains an ensemble model that averages predictions from a trained 
 - 🧪 Location-based test split for robustness
 
 ## File
-- `shapModel.py`: Contains model definitions, ensemble logic, and performance metrics.
+- `XGB-Hyper-optuna.py`: Contains model definitions, ensemble logic, and performance metrics.
 
 ## Run
 ```bash
-python shapModel.py
+python XGB-Hyper-optuna.py

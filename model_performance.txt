@@ -1,0 +1,43 @@
+
+First Model as per IEEE previous (base paper)
+| Model                      | MAE   | RMSE  | R²    |
+|---------------------------|-------|-------|-------|
+| Random Forest Regression  | 2.46  | 10.39 | 98.80 |
+| Decision Tree Regression  | 2.02  | 10.14 | 98.86 |
+| Linear Regression         | 32.19 | 42.70 | 79.73 |
+
+
+our performance 
+
+
+| Model                      | MAE   | RMSE  | R²    |
+|---------------------------|-------|-------|-------|
+| our algoritham            | 2.22  | 10.32 | 99.61 |
+| Total Execution Time (s) | 19.1273           |
+
+
+To determine which set of model results is better, let's compare both based on standard performance metrics:
+
+✅ From Your Table (First Set):
+Model	MAE	RMSE	R²
+Decision Tree	2.02	10.14	98.86
+Random Forest	2.46	10.39	98.80
+Linear Regression	32.19	42.70	79.73
+
+✅ Your New Results (Second Set):
+Metric	Value
+R² Score	0.9961 → 99.61%
+MAE	2.22
+RMSE	10.32
+
+🧠 Comparison:
+R² (Explained Variance): 0.9961 is better than all others — highest in second set.
+
+MAE: 2.22 is very close to Decision Tree (2.02) and better than Random Forest (2.46).
+
+RMSE: 10.32 is slightly worse than Decision Tree (10.14), better than Random Forest (10.39).
+
+✅ Conclusion:
+The second model is best overall because it has the highest R² score (99.61%), indicating better overall prediction accuracy, and it maintains comparable MAE and RMSE.
+
+You might want to explore more about what model produced this — likely a more optimized or ensemble model.

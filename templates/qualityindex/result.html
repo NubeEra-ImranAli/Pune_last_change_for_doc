@@ -55,6 +55,27 @@
         </tbody>
       </table>
 
+      <h2>Deep Learning Model Performance</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>R<sup>2</sup> Score</th>
+            <th>Mean Absolute Error (MAE)</th>
+            <th>Root Mean Squared Error (RMSE)</th>
+            <th>Total Execution Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ deep_r2_avg }}</td>
+            <td>{{ deep_mae_avg }}</td>
+            <td>{{ deep_rmse_total }}</td>
+            <td>{{ deep_time }}</td>
+          </tr>
+        </tbody>
+      </table>
+      
+
       <div class="container mt-5">
         <h2>Statistics</h2>
         <!-- Display the statistics table here -->

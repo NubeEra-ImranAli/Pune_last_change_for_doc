@@ -21,6 +21,7 @@ import io
 import urllib, base64
 import seaborn as sns
 import matplotlib
+from qualityindex.deep_learing import deep_learning
 matplotlib.use('Agg')  # Use a non-interactive backend
 def charts(request):
     return render(request, 'qualityindex/charts.html')
@@ -458,6 +459,7 @@ def predict_aqi(request):
 
         if names != 'All':
             data = data[data['NAME'] == names]
+        deep_rmse_total, deep_r2_avg, deep_mae_avg, deep_time = deep_learning(data)
 
         # Ensure the 'LASTUPDATEDATETIME' column exists and convert it to datetime
         if 'LASTUPDATEDATETIME' not in data.columns:
@@ -890,21 +892,21 @@ def predict_aqi(request):
         results_new = []
 
         # Train and evaluate each model
-        for name, model in models.items():
-            start_time = time.time()  # Start time tracking
-            model.fit(X_train, y_train)
-            y_pred = model.predict(X_test)
-            end_time = time.time()  # End time tracking
-            execution_time = end_time - start_time  # Calculate execution time
+        
+        # for name, model in models.items():
+        #     start_time = time.time()  # Start time tracking
+        #     model.fit(X_train, y_train)
+        #     y_pred = model.predict(X_test)
+        #     end_time = time.time()  # End time tracking
+        #     execution_time = end_time - start_time  # Calculate execution time
 
-            metrics = regression_metrics(y_test, y_pred, len(y_test), X_train.shape[1], execution_time)
-            results_new.append([name] + metrics)
+        #     metrics = regression_metrics(y_test, y_pred, len(y_test), X_train.shape[1], execution_time)
+        #     results_new.append([name] + metrics)
 
         # Convert results to DataFrame
         columns = ["Regression Type", "MSE", "MPE", "MAPE", "MedAE", "Explained Variance", "Adjusted R²", "Execution Time (s)"]
         results_df = pd.DataFrame(results_new, columns=columns)
         results_df = results_df.values.tolist()
-
         # Display results
         return render(request, 'qualityindex/result.html', {
             'results': results,
@@ -917,7 +919,11 @@ def predict_aqi(request):
             'aqi_value': aqi, 'aqi_category': status,
             'statistics_html':statistics_html,
             'statistics_per_location':statistics_per_location,
-            'otheralog':otheralog
+            'otheralog':otheralog,
+            'deep_mae_avg':deep_mae_avg,
+            'deep_r2_avg':deep_r2_avg,
+            'deep_rmse_total':deep_rmse_total,
+            'deep_time':deep_time
         })
 
 
